@@ -11,6 +11,7 @@
                 padding-left: 5px;
                 padding-right: 5px;
                 text-align: center;
+                font-size: 24px;
             }
             button {
                 color: red;
@@ -43,19 +44,19 @@
             };
             function p1() {
                 game.p0 = 0;
-                game.p1 += pending1;
+                game.p1 += game.pending1;
                 document.getElementById("p1").textContent = game.p1.toFixed(2);
             }
             setInterval(function(){
-                game.number+=game.p1/30;
-                game.pending1 = game.p0**0.5;
-                document.getElementById("number").textContent = game.number.toFixed(2);
+                game.p0+=game.p1/30;
+                game.pending1 = Math.pow(game.p0+game.p1*game.p1,0.5)-game.p1;
+                document.getElementById("number").textContent = game.p0.toFixed(2);
                 document.getElementById("p1pending").textContent = game.pending1.toFixed(2);
-            }, 1/30);
+            }, 1000/30);
         </script>
     </head>
     <body>
-    <h1>Prestige</h1>
+    <h1>Prestige</h1> 
     You have <span id="number" class="number">0.00</span> P0.<br>
     <button onclick="p1()">Prestige for <span id="p1pending">0.00</span> P1.</button><br>
     You have <span id="p1" class="number">1.00</span> P1.
