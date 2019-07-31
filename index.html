@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Prestige</title>
+        <style>
+            body {
+                background: black;
+                color: white;
+                font-family: "Arial", sans-serif;
+                padding-left: 5px;
+                padding-right: 5px;
+                text-align: center;
+            }
+            button {
+                color: red;
+                font-family: "Arial", sans-serif;
+                font-size: 1.2em;
+                border-color: purple;
+                background: black;
+                padding: 3px;
+                border-width: 2px;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: 0.2s;
+            }
+            button:hover {
+                color: blue;
+                background: red;
+                border-radius: 0px;
+            }
+            .number {
+                font-size: 2em;
+                color: red;
+                font-weight: bold;
+            }
+        </style>
+        <script>
+            var game = {
+                p0: 0,
+                p1: 1,
+                pending1: 0
+            };
+            function p1() {
+                game.p0 = 0;
+                game.p1 += pending1;
+                document.getElementById("p1").textContent = game.p1.toFixed(2);
+            }
+            setInterval(function(){
+                game.number+=p1/30;
+                document.getElementById("number").textContent = game.number.toFixed(2);
+                document.getElementById("p1pending").textContent = game.pending1.toFixed(2);
+            }, 1/30);
+        </script>
+    </head>
+    <body>
+    <h1>Prestige</h1>
+    You have <span id="number" class="number">0.00</span> P0.
+    <button onclick="p1()">Prestige for <span id="p1pending">0.00</span> P1.</button>
+    You have <span id="p1" class="number">1.00</span> P1.
+    </body>
+</html>
