@@ -47,7 +47,8 @@
                 document.getElementById("p1").textContent = game.p1.toFixed(2);
             }
             setInterval(function(){
-                game.number+=p1/30;
+                game.number+=game.p1/30;
+                game.pending1 = game.p0**0.5;
                 document.getElementById("number").textContent = game.number.toFixed(2);
                 document.getElementById("p1pending").textContent = game.pending1.toFixed(2);
             }, 1/30);
