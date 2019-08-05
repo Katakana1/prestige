@@ -39,53 +39,39 @@
         <script>
             var game = {
                 p0: 0,
-                p1: 1,
-                p2: 1,
-                pending1: 0,
-                pending2: 0,
-                p2unlock: false,
+                p1: 0,
+                p2: 0,
             };
-            function abbreviate(x){
-                if(x < 1000){
-                    return x.toFixed(2);
-                } else if(x < 1e6){
-                    return (x/1000).toFixed(2) + "K";
+            function commaNumber(x){
+                x = x.toString();
+                var pattern = /(-?\d+)(\d{3})/;
+                while (pattern.test(x)){
+                    x = x.replace(pattern, "$1,$2");
                 }
+                return x;
             }
-            function updateP2() {
-                document.getElementById("p2info").innerHTML = "<button onclick='p2()'>Prestige for " + abbreviate(game.pending2) + " P2. </button><br>You have <span class='number'>" + abbreviate(game.p2) + "</span> P2.<br>";
-            }
-            function p2() {
-                game.p0 = 0;
-                game.p1 = 1;
-                game.p2 += game.pending2;
-                game.pending2 = 0;
-                updateP2();
-                p1();
-            }
-            function p1() {
-                game.p0 = 0;
-                game.p1 += game.pending1;
-                document.getElementById("p1").textContent = abbreviate(game.p1);
-                if(game.p1 > 30 || game.p2unlock){
-                    game.pending2 = (Math.pow(game.p1+game.p2*game.p2,0.5)-game.p2);
-                    updateP2();
-                    game.p2unlock = true;
+            function abbreviate(x){
+                if(x < 1e9){
+                    return commaNumber(Math.round(x));
+                } else if(x < 1e12){
+                    return (x/1000).toFixed(2) + "T"
                 }
             }
             setInterval(function(){
-                game.p0+=game.p1/30;
-                game.pending1 = (Math.pow(game.p0+game.p1*game.p1,0.5)-game.p1)*game.p2;
-                document.getElementById("number").textContent = abbreviate(game.p0);
-                document.getElementById("p1pending").textContent = abbreviate(game.pending1);
+                game.p0+=(game.p1+1)/30;
+                game.p1 = Math.floor(game.p0/1000)%1000;
+                document.getElementById("real_number").textContent = abbreviate(game.p0);
+                document.getElementById("number").textContent = abbreviate(game.p0%1000);
+                if(game.p1 > 0){
+                document.getElementById("p1").innerHTML = "You have <span class='number'>" + abbreviate(game.p1%1000) + "</span> 1st prestige points."
+                }
             }, 1000/30);
         </script>
     </head>
     <body>
     <h1>Prestige</h1> 
-    You have <span id='number' class='number'>0.00</span> P0.<br>
-    <button onclick='p1()'>Prestige for <span id='p1pending'>0.00</span> P1.</button><br>
-    You have <span id='p1' class='number'>1.00</span> P1.<br>
-    <span id='p2info'></span>
+    You have <span id='real_number' class='number'>0.00</span> total points.<br>
+    You have <span id='number' class='number'>0.00</span> points.<br>
+    <span id='p1'></span><br>
     </body>
 </html>
