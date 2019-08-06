@@ -43,6 +43,7 @@
                 p0: 0,
                 p1: 0,
                 p2: 0,
+                p3: 0,
             };
             function commaNumber(x){
                 x = x.toString();
@@ -68,14 +69,15 @@
                 }
             }
             setInterval(function(){
-                game.totalMult = (game.p1+1)*(game.p2+1)*factorial(game.prestigeLayers+1);
+                game.totalMult = (game.p1+1)*(game.p2+1)*(game.p3+1)*factorial(game.prestigeLayers+1);
                 game.p0+=game.totalMult/30;
                 game.p1 = Math.floor(game.p0/1000)%1000;
                 game.p2 = Math.floor(game.p0/1e6)%1000;
+                game.p3 = Math.floor(game.p0/1e9)%1000;
                 document.getElementById("real_number").textContent = abbreviate(game.p0);
                 document.getElementById("number").textContent = abbreviate(game.p0%1000);
                 if(game.p1 > 0){
-                    document.getElementById("p1").innerHTML = "You have <span class='number'>" + abbreviate(game.p1%1000) + "</span> 1st prestige points.";
+                    document.getElementById("p1").innerHTML = "You have <span class='number'>" + abbreviate(game.p1) + "</span> 1st prestige points.";
                     if(game.prestigeLayers == 0){
                         game.prestigeLayers++;
                     }
@@ -84,13 +86,22 @@
                     document.getElementById("p1").innerHTML = "";
                 }
                 if(game.p2 > 0){
-                    document.getElementById("p2").innerHTML = "You have <span class='number'>" + abbreviate(game.p2%1000) + "</span> 2nd prestige points.";
+                    document.getElementById("p2").innerHTML = "You have <span class='number'>" + abbreviate(game.p2) + "</span> 2nd prestige points.";
                     if(game.prestigeLayers == 1){
                         game.prestigeLayers++;
                     }
                 }
                 else {
                     document.getElementById("p2").innerHTML = "";
+                }
+                if(game.p3 > 0){
+                    document.getElementById("p3").innerHTML = "You have <span class='number'>" + abbreviate(game.p3) + "</span> 3rd prestige points.";
+                    if(game.prestigeLayers == 2){
+                        game.prestigeLayers++;
+                    }
+                }
+                else {
+                    document.getElementById("p3").innerHTML = "";
                 }
             }, 1000/30);
         </script>
@@ -101,5 +112,6 @@
     You have <span id='number' class='number'>0</span> points.<br>
     <span id='p1'></span><br>
     <span id='p2'></span><br>
+    <span id='p3'></span><br>
     </body>
 </html>
