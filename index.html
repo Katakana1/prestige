@@ -53,10 +53,10 @@
                 return x;
             }
             function abbreviate(x){
-                if(x < 1e9){
+                if(x < 1e12){
                     return commaNumber(Math.round(x));
-                } else if(x < 1e12){
-                    return (x/1000).toFixed(2) + "T"
+                } else if(x < 1e15){
+                    return (x/1e12).toFixed(2) + "T"
                 }
             }
             function factorial(x){
@@ -68,9 +68,10 @@
                 }
             }
             setInterval(function(){
-                game.totalMult = (game.p1+1)*factorial(game.prestigeLayers+1);
+                game.totalMult = (game.p1+1)*(game.p2+1)*factorial(game.prestigeLayers+1);
                 game.p0+=game.totalMult/30;
                 game.p1 = Math.floor(game.p0/1000)%1000;
+                game.p2 = Math.floor(game.p0/1e6)%1000;
                 document.getElementById("real_number").textContent = abbreviate(game.p0);
                 document.getElementById("number").textContent = abbreviate(game.p0%1000);
                 if(game.p1 > 0){
@@ -82,6 +83,15 @@
                 else {
                     document.getElementById("p1").innerHTML = "";
                 }
+                if(game.p2 > 0){
+                    document.getElementById("p2").innerHTML = "You have <span class='number'>" + abbreviate(game.p2%1000) + "</span> 2nd prestige points.";
+                    if(game.prestigeLayers == 1){
+                        game.prestigeLayers++;
+                    }
+                }
+                else {
+                    document.getElementById("p2").innerHTML = "";
+                }
             }, 1000/30);
         </script>
     </head>
@@ -90,5 +100,6 @@
     You have <span id='real_number' class='number'>0</span> total points.<br>
     You have <span id='number' class='number'>0</span> points.<br>
     <span id='p1'></span><br>
+    <span id='p2'></span><br>
     </body>
 </html>
