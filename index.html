@@ -38,6 +38,8 @@
         </style>
         <script>
             var game = {
+                totalMult: 1,
+                prestigeLayers: 0,
                 p0: 0,
                 p1: 0,
                 p2: 0,
@@ -57,21 +59,36 @@
                     return (x/1000).toFixed(2) + "T"
                 }
             }
+            function factorial(x){
+                if(x > 1){
+                    return x*factorial(x-1);
+                }
+                if(x == 1){
+                    return 1;
+                }
+            }
             setInterval(function(){
-                game.p0+=(game.p1+1)/30;
+                game.totalMult = (game.p1+1)*factorial(game.prestigeLayers+1);
+                game.p0+=game.totalMult/30;
                 game.p1 = Math.floor(game.p0/1000)%1000;
                 document.getElementById("real_number").textContent = abbreviate(game.p0);
                 document.getElementById("number").textContent = abbreviate(game.p0%1000);
                 if(game.p1 > 0){
-                document.getElementById("p1").innerHTML = "You have <span class='number'>" + abbreviate(game.p1%1000) + "</span> 1st prestige points."
+                    document.getElementById("p1").innerHTML = "You have <span class='number'>" + abbreviate(game.p1%1000) + "</span> 1st prestige points.";
+                    if(game.prestigeLayers == 0){
+                        game.prestigeLayers++;
+                    }
+                }
+                else {
+                    document.getElementById("p1").innerHTML = "";
                 }
             }, 1000/30);
         </script>
     </head>
     <body>
     <h1>Prestige</h1> 
-    You have <span id='real_number' class='number'>0.00</span> total points.<br>
-    You have <span id='number' class='number'>0.00</span> points.<br>
+    You have <span id='real_number' class='number'>0</span> total points.<br>
+    You have <span id='number' class='number'>0</span> points.<br>
     <span id='p1'></span><br>
     </body>
 </html>
