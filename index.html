@@ -44,6 +44,7 @@
                 p1: 0,
                 p2: 0,
                 p3: 0,
+                p4: 0,
             };
             function commaNumber(x){
                 x = x.toString();
@@ -58,6 +59,8 @@
                     return commaNumber(Math.round(x));
                 } else if(x < 1e15){
                     return (x/1e12).toFixed(2) + "T"
+                } else if(x < 1e18){
+                    return (x/1e15).toFixed(2) + "Qa"
                 }
             }
             function factorial(x){
@@ -69,11 +72,12 @@
                 }
             }
             setInterval(function(){
-                game.totalMult = (game.p1+1)*(game.p2+1)*(game.p3+1)*factorial(game.prestigeLayers+1);
+                game.totalMult = (game.p1+1)*(game.p2+1)*(game.p3+1)*(game.p4+1)*factorial(game.prestigeLayers+1);
                 game.p0+=game.totalMult/30;
                 game.p1 = Math.floor(game.p0/1000)%1000;
                 game.p2 = Math.floor(game.p0/1e6)%1000;
                 game.p3 = Math.floor(game.p0/1e9)%1000;
+                game.p4 = Math.floor(game.p0/1e12)%1000;
                 document.getElementById("real_number").textContent = abbreviate(game.p0);
                 document.getElementById("number").textContent = abbreviate(game.p0%1000);
                 if(game.p1 > 0){
@@ -103,6 +107,15 @@
                 else {
                     document.getElementById("p3").innerHTML = "";
                 }
+                if(game.p4 > 0){
+                    document.getElementById("p4").innerHTML = "You have <span class='number'>" + abbreviate(game.p4) + "</span> 4th prestige points.";
+                    if(game.prestigeLayers == 3){
+                        game.prestigeLayers++;
+                    }
+                }
+                else {
+                    document.getElementById("p4").innerHTML = "";
+                }
             }, 1000/30);
         </script>
     </head>
@@ -113,5 +126,6 @@
     <span id='p1'></span><br>
     <span id='p2'></span><br>
     <span id='p3'></span><br>
+    <span id='p4'></span><br>
     </body>
 </html>
